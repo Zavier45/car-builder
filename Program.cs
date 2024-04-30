@@ -244,6 +244,12 @@ app.MapPost("/orders", (NewOrderDTO order) =>
         Id = newOrder.Id,
         TimeStamp = DateTime.Today,
         WheelId = order.WheelId,
+        Wheel = wheel == null ? null : new WheelDTO
+        {
+            Id = wheel.Id,
+            Price = wheel.Price,
+            Style = wheel.Style
+        },
         TechnologyId = order.TechnologyId,
         Technology = tech == null ? null : new TechnologyDTO
         {
