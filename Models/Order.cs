@@ -12,4 +12,11 @@ public class Order
     public PaintColor Paint { get; set; }
     public int InteriorId { get; set; }
     public Interior Interior { get; set; }
+    public decimal TotalCost
+    {
+        get
+        {
+            return Paint.Price + Interior.Price + Wheel.Price + Technology.Price;
+        }
+    }
 }
