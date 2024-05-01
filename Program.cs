@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -120,12 +121,29 @@ List<Wheel> wheels = new List<Wheel>()
     }
 };
 
-List<Order> orders = new List<Order>();
+List<Order> orders = new List<Order>()
+{
+    new Order()
+    {
+        Id = 1,
+        TimeStamp = DateTime.Now,
+        WheelId = 1,
+        TechnologyId = 4,
+        PaintId = 1,
+        InteriorId = 4
+    }
+};
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(options =>
+    {
+        options.AllowAnyOrigin();
+        options.AllowAnyMethod();
+        options.AllowAnyHeader();
+    });
 }
 
 app.UseHttpsRedirection();
