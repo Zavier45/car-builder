@@ -19,4 +19,5 @@ public class OrderDTO
             return Paint.Price + Interior.Price + Wheel.Price + Technology.Price;
         }
     }
+    public bool Complete { get; set; }
 }
