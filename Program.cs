@@ -190,7 +190,8 @@ app.MapGet("/technologies", () =>
 
 app.MapGet("/orders", () =>
 {
-    return orders.Select(o =>
+    List<Order> ordersTBC = orders.Where(oc => oc.Complete == false).ToList();
+    return ordersTBC.Select(o =>
     {
         Wheel wheel = wheels.FirstOrDefault(w => w.Id == o.WheelId);
         Technology tech = technologies.FirstOrDefault(t => t.Id == o.TechnologyId);
@@ -289,8 +290,23 @@ app.MapPost("/orders", (NewOrderDTO order) =>
             Price = interior.Price,
             Material = interior.Material
         },
-
+        Complete = false
     });
+});
+
+app.MapPut("/orders/{id}/fulfill", (int id, Order order) =>
+{
+    Order completeOrder = orders.FirstOrDefault(co => co.Id == id);
+    if (completeOrder == null)
+    {
+        return Results.NotFound();
+    }
+    if (id != completeOrder.Id)
+    {
+        return Results.BadRequest();
+    }
+    completeOrder.Complete = true;
+    return Results.Ok();
 });
 app.Run();
 
